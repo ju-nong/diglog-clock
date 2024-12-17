@@ -7,6 +7,106 @@
         <link rel="stylesheet" href="./style.css" />
     </head>
     <body>
-        Diglog Clock
+        <div id="clock">
+            <ul id="clock-dial">
+                <li>╹</li>
+                <li>╹</li>
+                <li>3</li>
+                <li>╹</li>
+                <li>╹</li>
+                <li>6</li>
+                <li>╹</li>
+                <li>╹</li>
+                <li>9</li>
+                <li>╹</li>
+                <li>╹</li>
+                <li>12</li>
+            </ul>
+            <div id="clock-hands">
+                <div id="clock-hands-pin"></div>
+                <div id="clock-hands-hour" class="clock-hands-item"></div>
+                <div id="clock-hands-minute" class="clock-hands-item"></div>
+                <div id="clock-hands-second" class="clock-hands-item"></div>
+            </div>
+        </div>
+
+        <script>
+            // 시계 다이얼 문자 위치 설정
+            function setClockDialWordsPosition(clockDialWords) {
+                const radius = 100;
+                const startAngle = -90;
+                const angleIncrement = 360 / 12;
+                const toRadians = (degrees) => degrees * (Math.PI / 180);
+
+                for (let i = 0; i < clockDialWords.length; i++) {
+                    const $currentClockDialWord = clockDialWords[i];
+                    const currentNumber = i + 1;
+
+                    const isMultipleOfThree = currentNumber % 3 === 0; // 3의 배수인지
+
+                    const index = (currentNumber + 12) % 12;
+                    const angle = startAngle + index * angleIncrement;
+
+                    const left = radius + radius * Math.cos(toRadians(angle));
+                    const top = radius + radius * Math.sin(toRadians(angle));
+
+                    if (isMultipleOfThree) {
+                        $currentClockDialWord.style = `--left: ${left}px; --top: ${top}px; --deg: 0deg;`;
+                        continue;
+                    }
+
+                    $currentClockDialWord.style = `--left: ${left}px; --top: ${top}px; --deg: ${
+                        currentNumber * 30
+                    }deg;`;
+                }
+            }
+
+            // 시작
+            function timeStart() {
+                const $clockHandsHour =
+                    document.getElementById("clock-hands-hour");
+                const $clockHandsMinute =
+                    document.getElementById("clock-hands-minute");
+                const $clockHandsSecond =
+                    document.getElementById("clock-hands-second");
+
+                const setStringToNumber = (number) =>
+                    number.toString().padStart(2, "0");
+
+                const getNowHMS = () => {
+                    const now = new Date();
+
+                    return {
+                        hour: setStringToNumber(now.getHours()),
+                        minute: setStringToNumber(now.getMinutes()),
+                        second: setStringToNumber(now.getSeconds()),
+                    };
+                };
+
+                const setHandsPosition = () => {
+                    const { hour, minute, second } = getNowHMS();
+
+                    $clockHandsHour.style = `--angle: ${hour * 30}deg;`;
+                    $clockHandsMinute.style = `--angle: ${minute * 6}deg;`;
+                    $clockHandsSecond.style = `--angle: ${second * 6}deg;`;
+                };
+
+                setTimeout(() => {
+                    setHandsPosition();
+
+                    setInterval(() => {
+                        setHandsPosition();
+                    }, 1000);
+                }, 1000 - new Date().getMilliseconds());
+            }
+
+            window.onload = function () {
+                const clockDialWords =
+                    document.querySelectorAll("#clock-dial > li"); // 시계 다이얼 문자들
+                setClockDialWordsPosition(clockDialWords); // 시계 다이얼 문자 위치 설정
+
+                timeStart();
+            };
+        </script>
     </body>
 </html>
