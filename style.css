@@ -50,55 +50,50 @@ body {
     }
 
     #clock-hands {
-        position: absolute;
-
-        > div {
-            box-shadow: 0 0 5px #0006;
-        }
-
         #clock-hands-pin {
             border: 2px solid #fff;
             background-color: #000;
             border-radius: 100%;
             width: 16px;
             height: 16px;
-            z-index: 10;
+            z-index: 5;
             position: relative;
+            box-shadow: 0 0 5px #0006;
         }
 
         .clock-hands-item {
-            position: absolute;
-            border-radius: 100px;
-            left: 50%;
-            top: 50%;
-        }
+            font-size: 12px;
+            font-weight: bold;
 
-        #clock-hands-hour,
-        #clock-hands-minute {
-            background-color: #ff7f26;
-            transform-origin: bottom center;
-            transform: translate(-50%, -100%) rotate(var(--angle));
+            > span {
+                position: absolute;
+                transform: translate(-50%, -50%);
+                z-index: 9;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                width: 20px;
+                height: 20px;
+            }
         }
 
         #clock-hands-hour {
-            width: 6px;
-            height: 70px;
             z-index: 7;
+            color: rgb(185 28 28);
+            display: none;
         }
 
         #clock-hands-minute {
-            width: 4px;
-            height: 85px;
             z-index: 8;
+            color: #ff7f26;
+            display: none;
         }
 
         #clock-hands-second {
-            transform-origin: 50% 80%;
-            transform: translate(-50%, -80%) rotate(var(--angle));
-            background-color: rgb(185 28 28);
-            width: 2px;
-            height: 110px;
             z-index: 9;
+            color: #ff7f26;
         }
     }
 }

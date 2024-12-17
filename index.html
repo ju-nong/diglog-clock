@@ -24,15 +24,42 @@
             </ul>
             <div id="clock-hands">
                 <div id="clock-hands-pin"></div>
-                <div id="clock-hands-hour" class="clock-hands-item"></div>
-                <div id="clock-hands-minute" class="clock-hands-item"></div>
-                <div id="clock-hands-second" class="clock-hands-item"></div>
+                <div id="clock-hands-hour" class="clock-hands-item">
+                    <span></span><span></span><span></span>
+                </div>
+                <div id="clock-hands-minute" class="clock-hands-item">
+                    <span></span><span></span><span></span><span></span
+                    ><span></span>
+                </div>
+                <div id="clock-hands-second" class="clock-hands-item">
+                    <span></span><span></span><span></span><span></span
+                    ><span></span><span></span>
+                </div>
             </div>
         </div>
 
         <script>
+            const SIZE = 250; // 시계 사이즈
+            const SENTER_X = SIZE / 2;
+            const SENTER_Y = SIZE / 2;
+
+            const RADIUS = 16; // 중심 너비
+
+            function getNowHMS() {
+                const now = new Date();
+
+                return {
+                    hour: now.getHours(),
+                    minute: now.getMinutes(),
+                    second: now.getSeconds(),
+                };
+            }
+
             // 시계 다이얼 문자 위치 설정
-            function setClockDialWordsPosition(clockDialWords) {
+            function setClockDialWordsPosition() {
+                const clockDialWords =
+                    document.querySelectorAll("#clock-dial > li"); // 시계 다이얼 문자들
+
                 const radius = 100;
                 const startAngle = -90;
                 const angleIncrement = 360 / 12;
@@ -70,40 +97,57 @@
                 const $clockHandsSecond =
                     document.getElementById("clock-hands-second");
 
-                const setStringToNumber = (number) =>
-                    number.toString().padStart(2, "0");
+                function setPosition(hour, minute, second) {
+                    // $clockHandsHour.style = `--angle: ${
+                    //     setStringToNumber(hour) * 30
+                    // }deg;`;
+                    // $clockHandsMinute.style = `--angle: ${
+                    //     setStringToNumber(minute) * 6
+                    // }deg;`;
+                    // $clockHandsSecond.style = `--angle: ${
+                    //     setStringToNumber(second) * 6
+                    // }deg;`;
+                    // console.log(second * 6);
+                }
 
-                const getNowHMS = () => {
-                    const now = new Date();
-
-                    return {
-                        hour: setStringToNumber(now.getHours()),
-                        minute: setStringToNumber(now.getMinutes()),
-                        second: setStringToNumber(now.getSeconds()),
-                    };
-                };
-
-                const setHandsPosition = () => {
+                function setting() {
                     const { hour, minute, second } = getNowHMS();
 
-                    $clockHandsHour.style = `--angle: ${hour * 30}deg;`;
-                    $clockHandsMinute.style = `--angle: ${minute * 6}deg;`;
-                    $clockHandsSecond.style = `--angle: ${second * 6}deg;`;
-                };
+                    const spanList = $clockHandsSecond.querySelectorAll("span");
+
+                    for (let i = 0; i < 6; i++) {
+                        const $currentSpan = spanList[i];
+
+                        // 라디안 값으로 변환 (각도 -> 라디안)
+                        const radians = (second * 6 - 90) * (Math.PI / 180);
+
+                        // 새로운 x, y 좌표 계산
+                        const x =
+                            SENTER_X +
+                            RADIUS * (i + 1) * Math.cos(radians) -
+                            3.5;
+                        const y =
+                            SENTER_Y +
+                            RADIUS * (i + 1) * Math.sin(radians) -
+                            3.5;
+
+                        $currentSpan.style.left = `${x}px`;
+                        $currentSpan.style.top = `${y}px`;
+                        $currentSpan.innerText = second;
+                    }
+                }
 
                 setTimeout(() => {
-                    setHandsPosition();
+                    setting();
 
                     setInterval(() => {
-                        setHandsPosition();
+                        setting();
                     }, 1000);
                 }, 1000 - new Date().getMilliseconds());
             }
 
             window.onload = function () {
-                const clockDialWords =
-                    document.querySelectorAll("#clock-dial > li"); // 시계 다이얼 문자들
-                setClockDialWordsPosition(clockDialWords); // 시계 다이얼 문자 위치 설정
+                setClockDialWordsPosition(); // 시계 다이얼 문자 위치 설정
 
                 timeStart();
             };
