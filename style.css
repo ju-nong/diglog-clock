@@ -82,13 +82,11 @@ body {
         #clock-hands-hour {
             z-index: 7;
             color: rgb(185 28 28);
-            display: none;
         }
 
         #clock-hands-minute {
             z-index: 8;
             color: #ff7f26;
-            display: none;
         }
 
         #clock-hands-second {

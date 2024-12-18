@@ -90,50 +90,62 @@
 
             // 시작
             function timeStart() {
-                const $clockHandsHour =
-                    document.getElementById("clock-hands-hour");
-                const $clockHandsMinute =
-                    document.getElementById("clock-hands-minute");
-                const $clockHandsSecond =
-                    document.getElementById("clock-hands-second");
-
-                function setPosition(hour, minute, second) {
-                    // $clockHandsHour.style = `--angle: ${
-                    //     setStringToNumber(hour) * 30
-                    // }deg;`;
-                    // $clockHandsMinute.style = `--angle: ${
-                    //     setStringToNumber(minute) * 6
-                    // }deg;`;
-                    // $clockHandsSecond.style = `--angle: ${
-                    //     setStringToNumber(second) * 6
-                    // }deg;`;
-                    // console.log(second * 6);
-                }
+                const clockHandItems = [
+                    {
+                        type: "hour",
+                        ref: document
+                            .getElementById("clock-hands-hour")
+                            .querySelectorAll("span"),
+                        multiple: 30,
+                        repeat: 3,
+                    },
+                    {
+                        type: "minute",
+                        ref: document
+                            .getElementById("clock-hands-minute")
+                            .querySelectorAll("span"),
+                        multiple: 6,
+                        repeat: 5,
+                    },
+                    {
+                        type: "second",
+                        ref: document
+                            .getElementById("clock-hands-second")
+                            .querySelectorAll("span"),
+                        multiple: 6,
+                        repeat: 6,
+                    },
+                ];
 
                 function setting() {
-                    const { hour, minute, second } = getNowHMS();
+                    const config = getNowHMS();
 
-                    const spanList = $clockHandsSecond.querySelectorAll("span");
+                    for (let i = 0; i < clockHandItems.length; i++) {
+                        const { type, ref, multiple, repeat } =
+                            clockHandItems[i];
 
-                    for (let i = 0; i < 6; i++) {
-                        const $currentSpan = spanList[i];
+                        for (let j = 0; j < repeat; j++) {
+                            const $currentSpan = ref[j];
+                            const currentTime = config[type];
 
-                        // 라디안 값으로 변환 (각도 -> 라디안)
-                        const radians = (second * 6 - 90) * (Math.PI / 180);
+                            // 라디안 값으로 변환 (각도 -> 라디안)
+                            const radians =
+                                (currentTime * multiple - 90) * (Math.PI / 180);
 
-                        // 새로운 x, y 좌표 계산
-                        const x =
-                            SENTER_X +
-                            RADIUS * (i + 1) * Math.cos(radians) -
-                            3.5;
-                        const y =
-                            SENTER_Y +
-                            RADIUS * (i + 1) * Math.sin(radians) -
-                            3.5;
+                            // 새로운 x, y 좌표 계산
+                            const x =
+                                SENTER_X +
+                                RADIUS * (j + 1) * Math.cos(radians) -
+                                3.5;
+                            const y =
+                                SENTER_Y +
+                                RADIUS * (j + 1) * Math.sin(radians) -
+                                3.5;
 
-                        $currentSpan.style.left = `${x}px`;
-                        $currentSpan.style.top = `${y}px`;
-                        $currentSpan.innerText = second;
+                            $currentSpan.style.left = `${x}px`;
+                            $currentSpan.style.top = `${y}px`;
+                            $currentSpan.innerText = currentTime;
+                        }
                     }
                 }
 
