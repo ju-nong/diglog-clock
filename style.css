@@ -31,6 +31,8 @@ body {
     position: relative;
     z-index: 11;
 
+    opacity: 0;
+
     #clock-dial {
         width: 200px;
         height: 200px;

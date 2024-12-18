@@ -79,6 +79,11 @@
                 };
             }
 
+            function showClock() {
+                const $clock = document.getElementById("clock");
+                $clock.style.opacity = 1;
+            }
+
             // 시계 다이얼 문자 위치 설정
             function setClockDialWordsPosition() {
                 const clockDialWords =
@@ -179,6 +184,8 @@
 
                 setTimeout(() => {
                     setting();
+
+                    showClock();
 
                     setInterval(() => {
                         setting();
