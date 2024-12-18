@@ -82,7 +82,7 @@ body {
         }
 
         #clock-hands-hour {
-            color: rgb(185 28 28);
+            color: #ff7f26;
 
             > span {
                 z-index: 9;
@@ -98,7 +98,7 @@ body {
         }
 
         #clock-hands-second {
-            color: #ff7f26;
+            color: rgb(185 28 28);
 
             > span {
                 z-index: 7;
