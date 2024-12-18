@@ -80,18 +80,27 @@ body {
         }
 
         #clock-hands-hour {
-            z-index: 7;
             color: rgb(185 28 28);
+
+            > span {
+                z-index: 9;
+            }
         }
 
         #clock-hands-minute {
-            z-index: 8;
             color: #ff7f26;
+
+            > span {
+                z-index: 8;
+            }
         }
 
         #clock-hands-second {
-            z-index: 9;
             color: #ff7f26;
+
+            > span {
+                z-index: 7;
+            }
         }
     }
 }
