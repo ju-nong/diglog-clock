@@ -150,7 +150,11 @@
 
                         for (let j = 0; j < repeat; j++) {
                             const $currentSpan = ref[j];
-                            const currentTime = config[type];
+
+                            let currentTime = config[type];
+                            if (type === "hour" && currentTime > 12) {
+                                currentTime = currentTime - 12;
+                            }
 
                             // 라디안 값으로 변환 (각도 -> 라디안)
                             const radians =
