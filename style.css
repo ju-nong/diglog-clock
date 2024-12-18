@@ -95,3 +95,15 @@ body {
         }
     }
 }
+
+h3 {
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    bottom: 1vh;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    transform: translateX(-50%);
+    font-weight: normal;
+}
